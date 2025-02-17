@@ -22,7 +22,7 @@ function changeSquareColorMode(squares) {
   squares.forEach((square) => {
     randomColorButton.addEventListener("click", () => {
       square.addEventListener("mouseover", () => {
-        square.style.backgroundColor = createRandomHexColor();
+        square.style.backgroundColor = createRandomRGBColor();
       });
     });
 
@@ -61,21 +61,13 @@ function removeCurrentGrid() {
   containerParent.appendChild(container);
 }
 
-// Create random hex color
-function createRandomHexColor() {
-  const hexNumbers = "0123456789abcdef";
-  let hexColor = "#";
-  for (let i = 0; i < 6; i++) {
-    const randomNumber = Math.floor(Math.random() * 16);
-    hexColor += hexNumbers[randomNumber];
+// Create random RGB color
+function createRandomRGBColor() {
+  const rgbValues = [];
+  for(let i = 0; i < 3; i++) {
+    rgbValues.push(Math.floor(Math.random() * 256));
   }
-  return hexColor;
-}
-
-function changeSquareBackground(square, color) {
-  square.addEventListener("mouseover", () => {
-    square.style.backgroundColor = color;
-  });
+  return `rgb(${rgbValues.toString()})`;
 }
 
 // Click to ask for new grid size
