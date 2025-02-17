@@ -4,7 +4,7 @@ const gridSizeButton = document.querySelector(".grid-size");
 function createGrid(userInput) {
   const numberOfSquares = Math.pow(userInput, 2);
   const squareSize = `${100 / userInput}%`;
-  for(let i = 0; i < numberOfSquares; i++) {
+  for (let i = 0; i < numberOfSquares; i++) {
     const square = document.createElement("div");
     square.style.width = squareSize;
     square.style.height = squareSize;
@@ -12,12 +12,12 @@ function createGrid(userInput) {
     document.querySelector(".container").appendChild(square);
   }
   const squares = document.querySelectorAll(".container > div");
-  changeSquareColor(squares)
+  changeSquareColor(squares);
 }
 
 // Change squares color when hover them
 function changeSquareColor(squares) {
-  squares.forEach(square => {
+  squares.forEach((square) => {
     square.addEventListener("mouseover", () => {
       square.style.backgroundColor = "#393E46";
     });
@@ -25,12 +25,14 @@ function changeSquareColor(squares) {
 }
 
 // Ask user for number of squares in grid
-function getUserInput () {
-  const userInput = prompt("Please enter your number of squares per side for the new grid");
+function getUserInput() {
+  const userInput = prompt(
+    "Please enter your number of squares per side for the new grid"
+  );
   const userNumericInput = Number(userInput);
-  if(userNumericInput > 0 && userNumericInput <= 100) {
+  if (userNumericInput > 0 && userNumericInput <= 100) {
     return userNumericInput;
-  } else if(userInput !== null) {
+  } else if (userInput !== null) {
     alert("Oops, Please enter a number between 1 and 100!");
   }
 }
@@ -43,6 +45,17 @@ function removeCurrentGrid() {
   containerParent.removeChild(document.querySelector(".container"));
   container.classList.add("container");
   containerParent.appendChild(container);
+}
+
+// Create random hex color
+function createRandomHexColor() {
+  const hexNumbers = "0123456789abcdef";
+  let hexColor = "#";
+  for (let i = 0; i < 6; i++) {
+    const randomNumber = Math.floor(Math.random() * 16);
+    hexColor += hexNumbers[randomNumber];
+  }
+  return hexColor;
 }
 
 // Click to ask for new grid size
