@@ -1,6 +1,7 @@
 const gridSizeButton = document.querySelector(".grid-size");
-const randomColorButton = document.querySelector(".random-color");
 const defaultColorButton = document.querySelector(".default-color");
+const randomColorButton = document.querySelector(".random-color");
+const darkColorButton = document.querySelector(".dark-color");
 
 // Create grid
 function createGrid(userInput) {
@@ -20,15 +21,22 @@ function createGrid(userInput) {
 // Change squares color when hover them
 function changeSquareColorMode(squares) {
   squares.forEach((square) => {
+    defaultColorButton.addEventListener("click", () => {
+      square.addEventListener("mouseover", () => {
+        square.style.backgroundColor = "#393E46";
+      });
+    });
+
     randomColorButton.addEventListener("click", () => {
       square.addEventListener("mouseover", () => {
         square.style.backgroundColor = createRandomRGBColor();
       });
     });
 
-    defaultColorButton.addEventListener("click", () => {
+    darkColorButton.addEventListener("click", () => {
+      let opacity = 0;
       square.addEventListener("mouseover", () => {
-        square.style.backgroundColor = "#393E46";
+        square.style.backgroundColor = `rgb(0, 0, 0, ${opacity += 10}%)`;
       });
     });
 
@@ -64,7 +72,7 @@ function removeCurrentGrid() {
 // Create random RGB color
 function createRandomRGBColor() {
   const rgbValues = [];
-  for(let i = 0; i < 3; i++) {
+  for (let i = 0; i < 3; i++) {
     rgbValues.push(Math.floor(Math.random() * 256));
   }
   return `rgb(${rgbValues.toString()})`;
