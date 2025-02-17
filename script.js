@@ -1,4 +1,6 @@
 const gridSizeButton = document.querySelector(".grid-size");
+const randomColorButton = document.querySelector(".random-color");
+const defaultColorButton = document.querySelector(".default-color");
 
 // Create grid
 function createGrid(userInput) {
@@ -12,12 +14,24 @@ function createGrid(userInput) {
     document.querySelector(".container").appendChild(square);
   }
   const squares = document.querySelectorAll(".container > div");
-  changeSquareColor(squares);
+  changeSquareColorMode(squares);
 }
 
 // Change squares color when hover them
-function changeSquareColor(squares) {
+function changeSquareColorMode(squares) {
   squares.forEach((square) => {
+    randomColorButton.addEventListener("click", () => {
+      square.addEventListener("mouseover", () => {
+        square.style.backgroundColor = createRandomHexColor();
+      });
+    });
+
+    defaultColorButton.addEventListener("click", () => {
+      square.addEventListener("mouseover", () => {
+        square.style.backgroundColor = "#393E46";
+      });
+    });
+
     square.addEventListener("mouseover", () => {
       square.style.backgroundColor = "#393E46";
     });
@@ -58,11 +72,19 @@ function createRandomHexColor() {
   return hexColor;
 }
 
+function changeSquareBackground(square, color) {
+  square.addEventListener("mouseover", () => {
+    square.style.backgroundColor = color;
+  });
+}
+
 // Click to ask for new grid size
 gridSizeButton.addEventListener("click", () => {
   const userInput = getUserInput();
-  removeCurrentGrid();
-  createGrid(userInput);
+  if (userInput) {
+    removeCurrentGrid();
+    createGrid(userInput);
+  }
 });
 
 // Create 16 * 16 grid of square for default size
