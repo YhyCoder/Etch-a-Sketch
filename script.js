@@ -2,6 +2,7 @@ const gridSizeButton = document.querySelector(".grid-size");
 const defaultColorButton = document.querySelector(".default-color");
 const randomColorButton = document.querySelector(".random-color");
 const darkColorButton = document.querySelector(".dark-color");
+const eraseColorButton = document.querySelector(".erase-color");
 
 // Create grid
 function createGrid(userInput) {
@@ -20,29 +21,61 @@ function createGrid(userInput) {
 
 // Change squares color when hover them
 function changeSquareColorMode(squares) {
+  let colorChange = false;
+
   squares.forEach((square) => {
-    defaultColorButton.addEventListener("click", () => {
-      square.addEventListener("mouseover", () => {
-        square.style.backgroundColor = "#393E46";
+    function changeMouseEvent(color) {
+      square.addEventListener("mousedown", (event) => {
+        square.style.backgroundColor = color;
+        colorChange = true;
+        // Prevents mouseover from getting stuck and mouseup not working.
+        event.preventDefault();
       });
+
+      square.addEventListener("mouseup", () => {
+        colorChange = false;
+      });
+
+      square.addEventListener("mouseover", () => {
+        if (colorChange) {
+          square.style.backgroundColor = color;
+        }
+      });
+    }
+
+    defaultColorButton.addEventListener("click", () => {
+      changeMouseEvent("#393E46");
     });
 
     randomColorButton.addEventListener("click", () => {
-      square.addEventListener("mouseover", () => {
-        square.style.backgroundColor = createRandomRGBColor();
-      });
+      changeMouseEvent(createRandomRGBColor());
     });
 
     darkColorButton.addEventListener("click", () => {
       let opacity = 0;
+      square.addEventListener("mousedown", (event) => {
+        square.style.backgroundColor = `rgba(0, 0, 0, ${(opacity += 10)}%)`;
+        colorChange = true;
+        // Prevents mouseover from getting stuck and mouseup not working.
+        event.preventDefault();
+      });
+
+      square.addEventListener("mouseup", () => {
+        colorChange = false;
+      });
+
       square.addEventListener("mouseover", () => {
-        square.style.backgroundColor = `rgb(0, 0, 0, ${opacity += 10}%)`;
+        if (colorChange) {
+          square.style.backgroundColor = `rgba(0, 0, 0, ${(opacity += 10)}%)`;
+        }
       });
     });
 
-    square.addEventListener("mouseover", () => {
-      square.style.backgroundColor = "#393E46";
+    eraseColorButton.addEventListener("click", () => {
+      square.style.backgroundColor = "#eee";
     });
+
+    changeMouseEvent("#393E46");
   });
 }
 
